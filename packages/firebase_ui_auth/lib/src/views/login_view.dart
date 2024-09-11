@@ -253,7 +253,7 @@ class _LoginViewState extends State<LoginView> {
                 ),
                 const SizedBox(height: 8),
               ] else if (provider is EmailLinkAuthProvider) ...[
-                const SizedBox(height: 8),
+                SizedBox(height: widget.buttonSpace),
                 EmailLinkSignInButton(
                   auth: widget.auth,
                   provider: provider,
