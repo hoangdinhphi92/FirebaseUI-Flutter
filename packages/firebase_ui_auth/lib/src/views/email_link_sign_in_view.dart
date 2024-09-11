@@ -80,7 +80,7 @@ class _EmailLinkSignInViewState extends State<EmailLinkSignInView> {
               const SizedBox(height: 16),
             ],
             if (!isFormHidden) ...[
-              const SizedBox(height: 8),
+              const SizedBox(height: 16),
               LoadingButton(
                 isLoading: state is SendingLink,
                 label: l.sendLinkButtonLabel,
