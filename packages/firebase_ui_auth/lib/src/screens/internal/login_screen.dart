@@ -51,6 +51,9 @@ class LoginScreen extends StatelessWidget {
   final double breakpoint;
   final Set<FirebaseUIStyle>? styles;
 
+  /// Space Between button
+  final double buttonSpace;
+
   /// {@macro ui.auth.widgets.email_form.showPasswordVisibilityToggle}
   final bool showPasswordVisibilityToggle;
 
@@ -75,6 +78,7 @@ class LoginScreen extends StatelessWidget {
     this.loginViewKey,
     this.breakpoint = 800,
     this.styles,
+    this.buttonSpace = 16,
     this.showPasswordVisibilityToggle = false,
     this.maxWidth,
   });
@@ -95,6 +99,7 @@ class LoginScreen extends StatelessWidget {
           showAuthActionSwitch: showAuthActionSwitch,
           subtitleBuilder: subtitleBuilder,
           footerBuilder: footerBuilder,
+          buttonSpace: 16,
           showPasswordVisibilityToggle: showPasswordVisibilityToggle,
         ),
       ),

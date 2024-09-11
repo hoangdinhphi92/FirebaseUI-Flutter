@@ -169,43 +169,39 @@ class _OAuthProviderButtonBaseState extends State<OAuthProviderButtonBase>
   Widget _buildCupertino(
     BuildContext context,
     OAuthProviderButtonStyle style,
-    double margin,
     double borderRadius,
     double iconBorderRadius,
   ) {
     final br = BorderRadius.circular(borderRadius);
 
-    return LayoutFlowAwarePadding(
-      padding: EdgeInsets.all(margin),
-      child: CupertinoTheme(
-        data: CupertinoThemeData(
-          primaryColor: widget.label.isEmpty
-              ? style.iconBackgroundColor
-              : style.backgroundColor,
-        ),
-        child: Material(
-          elevation: 1,
+    return CupertinoTheme(
+      data: CupertinoThemeData(
+        primaryColor: widget.label.isEmpty
+            ? style.iconBackgroundColor
+            : style.backgroundColor,
+      ),
+      child: Material(
+        elevation: 1,
+        borderRadius: br,
+        child: CupertinoButton.filled(
+          padding: const EdgeInsets.all(0),
           borderRadius: br,
-          child: CupertinoButton.filled(
-            padding: const EdgeInsets.all(0),
+          onPressed: _signIn,
+          child: ClipRRect(
             borderRadius: br,
-            onPressed: _signIn,
-            child: ClipRRect(
+            child: _ButtonContent(
+              assetsPackage: style.assetsPackage,
+              iconSrc: style.iconSrc,
+              iconPadding: style.iconPadding,
+              isLoading: isLoading,
+              label: widget.label,
+              height: _height,
+              fontSize: widget.size,
+              textColor: style.color,
+              loadingIndicator: widget.loadingIndicator,
               borderRadius: br,
-              child: _ButtonContent(
-                assetsPackage: style.assetsPackage,
-                iconSrc: style.iconSrc,
-                iconPadding: style.iconPadding,
-                isLoading: isLoading,
-                label: widget.label,
-                height: _height,
-                fontSize: widget.size,
-                textColor: style.color,
-                loadingIndicator: widget.loadingIndicator,
-                borderRadius: br,
-                borderColor: style.borderColor,
-                iconBackgroundColor: style.iconBackgroundColor,
-              ),
+              borderColor: style.borderColor,
+              iconBackgroundColor: style.iconBackgroundColor,
             ),
           ),
         ),
@@ -216,7 +212,6 @@ class _OAuthProviderButtonBaseState extends State<OAuthProviderButtonBase>
   Widget _buildMaterial(
     BuildContext context,
     OAuthProviderButtonStyle style,
-    double margin,
     double borderRadius,
     double iconBorderRadius,
   ) {
@@ -229,7 +224,6 @@ class _OAuthProviderButtonBaseState extends State<OAuthProviderButtonBase>
           : style.backgroundColor,
       height: _height,
       width: widget.label.isEmpty ? _height : null,
-      margin: margin,
       child: Stack(
         children: [
           _ButtonContent(
@@ -259,7 +253,6 @@ class _OAuthProviderButtonBaseState extends State<OAuthProviderButtonBase>
         CupertinoTheme.of(context).brightness ?? Theme.of(context).brightness;
 
     final style = provider.style.withBrightness(brightness);
-    final margin = (widget.size + widget._padding * 2) / 10;
     final borderRadius = widget.size / 3;
     const borderWidth = 1.0;
     final iconBorderRadius = borderRadius - borderWidth;
@@ -268,7 +261,6 @@ class _OAuthProviderButtonBaseState extends State<OAuthProviderButtonBase>
       return _buildCupertino(
         context,
         style,
-        margin,
         borderRadius,
         iconBorderRadius,
       );
@@ -276,7 +268,6 @@ class _OAuthProviderButtonBaseState extends State<OAuthProviderButtonBase>
       return _buildMaterial(
         context,
         style,
-        margin,
         borderRadius,
         iconBorderRadius,
       );
@@ -480,7 +471,6 @@ class _MaterialForeground extends StatelessWidget {
 }
 
 class _ButtonContainer extends StatelessWidget {
-  final double margin;
   final double height;
   final double? width;
   final Color color;
@@ -488,7 +478,6 @@ class _ButtonContainer extends StatelessWidget {
   final Widget child;
 
   const _ButtonContainer({
-    required this.margin,
     required this.height,
     required this.color,
     required this.borderRadius,
@@ -498,19 +487,16 @@ class _ButtonContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return LayoutFlowAwarePadding(
-      padding: EdgeInsets.all(margin),
-      child: SizedBox(
-        height: height,
-        width: width,
-        child: Material(
-          color: color,
-          elevation: 1,
-          shape: RoundedRectangleBorder(borderRadius: borderRadius),
-          child: ClipRRect(
-            borderRadius: borderRadius,
-            child: Center(child: child),
-          ),
+    return SizedBox(
+      height: height,
+      width: width,
+      child: Material(
+        color: color,
+        elevation: 1,
+        shape: RoundedRectangleBorder(borderRadius: borderRadius),
+        child: ClipRRect(
+          borderRadius: borderRadius,
+          child: Center(child: child),
         ),
       ),
     );

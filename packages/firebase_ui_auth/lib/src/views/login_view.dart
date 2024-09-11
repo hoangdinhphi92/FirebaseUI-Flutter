@@ -55,6 +55,9 @@ class LoginView extends StatefulWidget {
   /// A label that would be used for the "Sign in" button.
   final String? actionButtonLabelOverride;
 
+  /// Space Between button
+  final double buttonSpace;
+
   /// {@macro ui.auth.widgets.email_from.showPasswordVisibilityToggle}
   final bool showPasswordVisibilityToggle;
 
@@ -71,6 +74,7 @@ class LoginView extends StatefulWidget {
     this.footerBuilder,
     this.subtitleBuilder,
     this.actionButtonLabelOverride,
+    this.buttonSpace = 16,
     this.showPasswordVisibilityToggle = false,
   });
 
@@ -80,7 +84,9 @@ class LoginView extends StatefulWidget {
 
 class _LoginViewState extends State<LoginView> {
   late AuthAction _action = widget.action;
+
   bool get _showTitle => widget.showTitle ?? true;
+
   bool get _showAuthActionSwitch => widget.showAuthActionSwitch ?? true;
   bool _buttonsBuilt = false;
 
@@ -106,16 +112,25 @@ class _LoginViewState extends State<LoginView> {
       );
     }).toList();
 
+    final children = List.generate(oauthButtonsList.length * 2 - 1, (index) {
+      if (index.isEven) {
+        return oauthButtonsList[index ~/ 2];
+      } else {
+        return widget.oauthButtonVariant == OAuthButtonVariant.icon_and_text
+            ? SizedBox(height: widget.buttonSpace)
+            : SizedBox(width: widget.buttonSpace);
+      }
+    });
+
     if (widget.oauthButtonVariant == OAuthButtonVariant.icon_and_text) {
       return Column(
         mainAxisSize: MainAxisSize.min,
-        children: oauthButtonsList,
+        children: children,
       );
     } else {
       return Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         mainAxisSize: MainAxisSize.min,
-        children: oauthButtonsList,
+        children: children,
       );
     }
   }
@@ -243,8 +258,10 @@ class _LoginViewState extends State<LoginView> {
                   auth: widget.auth,
                   provider: provider,
                 ),
-              ] else if (provider is OAuthProvider && !_buttonsBuilt)
+              ] else if (provider is OAuthProvider && !_buttonsBuilt) ...[
+                SizedBox(height: widget.buttonSpace),
                 _buildOAuthButtons(platform),
+              ],
           if (widget.footerBuilder != null)
             widget.footerBuilder!(
               context,
